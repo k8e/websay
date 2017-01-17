@@ -1,0 +1,31 @@
+h1 {
+    text-align: center;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+    max-width: 700px;
+}
+
+#inp_txt {
+    margin: 10px 0;
+}
+
+.grp_buttons {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.txt_say {
+    font-size: 800%;
+}
+
+.lnk_back {
+    text-decoration: underline;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 1em;
+}

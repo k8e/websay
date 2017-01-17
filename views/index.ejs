@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title><%= title %></title>
+
+    <link rel="stylesheet" href="../stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/style.css">
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="container">
+        <div class="row row-centered">
+            <div class="col-xs-12 col-centered">
+
+                <h1>WebSay</h1>
+                <form id="sayForm" class="form-horizontal">
+                    <div class="row form-group">
+                        <div class="col-xs-12">
+                            <div id="inp_txt">
+                                <input type="text" name="t" class="txt form-control" placeholder="Type something">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                      <label for="v" class="col-md-2 control-label">Voice</label>
+                      <div class="col-md-10 row">
+                          <div class="col-xs-12 col-md-10">
+                              <select name="v" class="form-control"></select>
+                          </div>
+                          <div class="col-xs-2">
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label for="rate" class="col-md-2 control-label">Rate</label>
+                      <div class="col-md-10 row">
+                          <div class="col-xs-10">
+                              <input type="range" name="r" min="0.5" max="2" value="1" step="0.1" id="rate">
+                          </div>
+                          <div class="col-xs-2">
+                              <div class="rate-value">1</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label for="pitch" class="col-md-2 control-label">Pitch</label>
+                      <div class="col-md-10 row">
+                          <div class="col-xs-10">
+                              <input type="range" name="p" min="0" max="2" value="1" step="0.1" id="pitch">
+                          </div>
+                          <div class="col-xs-2">
+                              <div class="pitch-value">1</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="grp_buttons">
+                            <button class="btn btn-primary" type="submit">Play</button>
+                            <button class="btn btn-default" id="btn_share">Share</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../javascripts/speech.js"></script>
+    <script src="../javascripts/serialize.js"></script>
+    <script>
+        initSpeechForm();
+        document.getElementById('btn_share').onclick=function(event){
+            event.preventDefault();
+            var form = document.getElementById('sayForm');
+            var URL = "/talk?" + serialize(form);
+            window.open(URL, "_self");
+        }
+    </script>
+  </body>
+</html>
