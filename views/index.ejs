@@ -20,32 +20,93 @@
             <div class="col-xs-12 col-centered">
 
                 <h1>WebSay</h1>
-                <form id="sayForm" class="form-horizontal">
+                <form id="speakData" class="form-horizontal" onsubmit="meSpeak.speak(text.value, { amplitude: amplitude.value, wordgap: wordgap.value, pitch: pitch.value, speed: speed.value, variant: variant.options[variant.selectedIndex].value }); return false">
                     <div class="row form-group">
                         <div class="col-xs-12">
                             <div id="inp_txt">
-                                <input type="text" name="t" class="txt form-control" placeholder="Type something">
+                                <input type="text" name="text" size=80 value="Type something" class="txt form-control" />
                             </div>
                         </div>
                     </div>
-                    <div class="row form-group">
-                      <label for="v" class="col-md-2 control-label">Voice</label>
+                    <div class="row form-group unfinished">
+                      <label for="voice" class="col-md-2 control-label">Voice</label>
                       <div class="col-md-10 row">
                           <div class="col-xs-12 col-md-10">
-                              <select name="v" class="form-control"></select>
+                              <select name="voice" id="voiceSelect" class="form-control" onchange="loadVoice(this.options[this.selectedIndex].value);">
+                                    <option value="ca">ca - Catalan</option>
+                                    <option value="cs">cs - Czech</option>
+                                    <option value="de">de - German</option>
+                                    <option value="el">el - Greek</option>
+                                    <option value="en/en" selected="selected">en - English</option>
+                                    <option value="en/en-n">en-n - English, regional</option>
+                                    <option value="en/en-rp">en-rp - English, regional</option>
+                                    <option value="en/en-sc">en-sc - English, Scottish</option>
+                                    <option value="en/en-us">en-us - English, US</option>
+                                    <option value="en/en-wm">en-wm - English, regional</option>
+                                    <option value="eo">eo - Esperanto</option>
+                                    <option value="es">es - Spanish</option>
+                                    <option value="es-la">es-la - Spanish, Latin America</option>
+                                    <option value="fi">fi - Finnish</option>
+                                    <option value="fr">fr - French</option>
+                                    <option value="hu">hu - Hungarian</option>
+                                    <option value="it">it - Italian</option>
+                                    <option value="kn">kn - Kannada</option>
+                                    <option value="la">la - Latin</option>
+                                    <option value="lv">lv - Latvian</option>
+                                    <option value="nl">nl - Dutch</option>
+                                    <option value="pl">pl - Polish</option>
+                                    <option value="pt">pt - Portuguese, Brazil</option>
+                                    <option value="pt-pt">pt-pt - Portuguese, European</option>
+                                    <option value="ro">ro - Romanian</option>
+                                    <option value="sk">sk - Slovak</option>
+                                    <option value="sv">sv - Swedish</option>
+                                    <option value="tr">tr - Turkish</option>
+                                    <option value="zh">zh - Mandarin Chinese (Pinyin)</option>
+                                    <option value="zh-yue">zh-yue - Cantonese Chinese</option>
+                                </select>
                           </div>
                           <div class="col-xs-2">
                           </div>
                       </div>
                     </div>
                     <div class="row form-group">
-                      <label for="rate" class="col-md-2 control-label">Rate</label>
+                      <label for="variant" class="col-md-2 control-label">Voice</label>
                       <div class="col-md-10 row">
-                          <div class="col-xs-10">
-                              <input type="range" name="r" min="0.5" max="2" value="1" step="0.1" id="rate">
+                          <div class="col-xs-12 col-md-10">
+                              <select name="variant" id="variantSelect" class="form-control">
+                              	<option value="" selected>None</option>
+                              	<option value="f1">f1 (female 1)</option>
+                              	<option value="f2">f2 (female 2)</option>
+                              	<option value="f3">f3 (female 3)</option>
+                              	<option value="f4">f4 (female 4)</option>
+                              	<option value="f5">f5 (female 5)</option>
+                              	<option value="m1">m1 (male 1)</option>
+                              	<option value="m2">m2 (male 2)</option>
+                              	<option value="m3">m3 (male 3)</option>
+                              	<option value="m4">m4 (male 4)</option>
+                              	<option value="m5">m5 (male 5)</option>
+                              	<option value="m6">m6 (male 6)</option>
+                              	<option value="m7">m7 (male 7)</option>
+                              	<option value="croak">croak</option>
+                              	<option value="klatt">klatt</option>
+                              	<option value="klatt2">klatt2</option>
+                              	<option value="klatt3">klatt3</option>
+                              	<option value="whisper">whisper</option>
+                              	<option value="whisperf">whisperf (female)</option>
+                              </select>
                           </div>
                           <div class="col-xs-2">
-                              <div class="rate-value">1</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <label for="speed" class="col-md-2 control-label">Speed</label>
+                      <div class="col-md-10 row">
+                          <div class="col-xs-10">
+                              <input type="range" name="speed" min="0" max="1000" value="175" step="1" id="rate">
+                          </div>
+                          <div class="col-xs-2">
+                              <div class="rate-value unfinished">1</div>
                           </div>
                       </div>
                     </div>
@@ -53,35 +114,184 @@
                       <label for="pitch" class="col-md-2 control-label">Pitch</label>
                       <div class="col-md-10 row">
                           <div class="col-xs-10">
-                              <input type="range" name="p" min="0" max="2" value="1" step="0.1" id="pitch">
+                              <input type="range" name="pitch" min="0" max="100" value="50" step="1" id="pitch">
                           </div>
                           <div class="col-xs-2">
-                              <div class="pitch-value">1</div>
+                              <div class="pitch-value unfinished">1</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row form-group unfinished">
+                      <label for="amplitude" class="col-md-2 control-label">Amplitude</label>
+                      <div class="col-md-10 row">
+                          <div class="col-xs-10">
+                              <input type="text" name="amplitude" size=5 value="100" />
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row form-group unfinished">
+                      <label for="wordgap" class="col-md-2 control-label">Word gap</label>
+                      <div class="col-md-10 row">
+                          <div class="col-xs-10">
+                              <input type="text" name="wordgap" size=5 value="0" />
                           </div>
                       </div>
                     </div>
                     <div class="row form-group">
                         <div class="grp_buttons">
                             <button class="btn btn-primary" type="submit">Play</button>
-                            <button class="btn btn-default" id="btn_share">Share</button>
+                            <button class="btn btn-primary" onclick="meSpeak.stop(); return false;">Stop</button>
+                            <a class="btn btn-default" id="btn_share" href="#" target="_blank">Share</a>
                         </div>
                     </div>
                 </form>
-
+                <p id="linkdisplay"></p>
             </div>
         </div>
     </div>
 
-    <script src="../javascripts/speech.js"></script>
+    <script src="../javascripts/mespeak.full.js"></script>
+    <script src="../javascripts/controller.js"></script>
+    <script type="text/javascript">
+      initMeSpeak();
+
+      /*
+        auto-speak glue:
+        additional functions for generating a link and parsing any url-params provided for auto-speak
+      */
+
+      var formFields = ['text','amplitude','wordgap','pitch','speed'];
+
+      function autoSpeak() {
+        // checks url for speech params, sets and plays them, if found.
+        // also adds eventListeners to update a link with those params using current values
+        var i,l,n,params,pairs,pair,
+            speakNow=null,
+            useDefaultVoice=true,
+            q=document.location.search,
+            f=document.getElementById('speakData'),
+            s1=document.getElementById('variantSelect'),
+            s2=document.getElementById('voiceSelect');
+        if (!f || !s2) return; // form and/or select not found
+        if (q.length>1) {
+          // parse url-params
+          params={};
+          pairs=q.substring(1).split('&');
+          for (i=0, l=pairs.length; i<l; i++) {
+            pair=pairs[i].split('=');
+            if (pair.length==2) params[pair[0]]=decodeURIComponent(pair[1]);
+          }
+          // insert params into the form or complete them from defaults in form
+          for (i=0, l=formFields.length; i<l; i++) {
+            n=formFields[i];
+            if (params[n]) {
+              f.elements[n].value=params[n];
+            }
+            else {
+              params[n]=f.elements[n].value;
+            }
+          }
+          if (params.variant) {
+            for (i=0, l=s1.options.length; i<l; i++) {
+              if (s1.options[i].value==params.variant) {
+                s1.selectedIndex=i;
+                break;
+              }
+            }
+          }
+          else {
+            params.variant='';
+          }
+          // compile a function to speak with given params for later use
+          // play only, if param "auto" is set to "true" or "1"
+          if (params.auto=='true' || params.auto=='1') {
+            speakNow = function() {
+              meSpeak.speak(params.text, {
+                amplitude: params.amplitude,
+                wordgap: params.wordgap,
+                pitch: params.pitch,
+                speed: params.speed,
+                variant: params.variant
+              });
+            };
+          }
+          // check for any voice specified by the params (other than the default)
+          if (params.voice && params.voice!=s2.options[s2.selectedIndex].value) {
+            // search selected voice in selector
+            for (i=0, l=s2.options.length; i<l; i++) {
+              if (s2.options[i].value==params.voice) {
+                // voice found: adjust the form, load voice-data and provide a callback to speak
+                s2.selectedIndex=i;
+                meSpeak.loadVoice('voices/'+params.voice+'.json', function(success, message) {
+                  if (success) {
+                    if (speakNow) setTimeout(speakNow, 10);
+                  }
+                  else {
+                    if (window.console) console.log('Failed to load requested voice: '+message);
+                  }
+                });
+                useDefaultVoice=false;
+                break;
+              }
+            }
+          }
+          // standard voice: speak (deferred until config is loaded)
+          if (speakNow && useDefaultVoice) speakNow();
+        }
+        // initial url-processing done, add eventListeners for updating the link
+        for (i=0, l=formFields.length; i<l; i++) {
+          f.elements[formFields[i]].addEventListener('change', updateSpeakLink, false);
+        }
+        s1.addEventListener('change', updateSpeakLink, false);
+        s2.addEventListener('change', updateSpeakLink, false);
+        // finally, inject a link with current values into the page
+        updateSpeakLink();
+      }
+
+      function updateSpeakLink() {
+        // injects a link for auto-execution using current values into the page
+        var i,l,n,f,s,v,url,el,params=new Array();
+        // collect values from form
+        f=document.getElementById("speakData");
+        for (i=0, l=formFields.length; i<l; i++) {
+          n=formFields[i];
+          params.push(n+'='+encodeURIComponent(f.elements[n].value));
+        }
+        // get variant
+        s=document.getElementById('variantSelect');
+        if (s.selectedIndex>=0) params.push('variant='+s.options[s.selectedIndex].value);
+        // get current voice, default to 'en/en' as a last resort
+        s=document.getElementById('voiceSelect');
+        if (s.selectedIndex>=0) v=s.options[s.selectedIndex].value;
+        if (!v) v=meSpeak.getDefaultVoice() || 'en/en';
+        params.push('voice='+encodeURIComponent(v));
+        params.push('auto=true');
+        // assemble the url and add it as GET-link to the page
+        url='talk?'+params.join('&');
+        document.getElementById("btn_share").href=window.location.href+url;
+        url=url.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');
+        el=document.getElementById('linkdisplay');
+        if (el) el.innerHTML='Share URL: <pre>'+window.location.href+url+'</pre>';
+      }
+
+      // trigger auto-speak at DOMContentLoaded
+      if (document.addEventListener) document.addEventListener( "DOMContentLoaded", autoSpeak, false );
+
+      /*
+        end of auto-speak glue
+      */
+
+    </script>
+
     <script src="../javascripts/serialize.js"></script>
     <script>
-        initSpeechForm();
-        document.getElementById('btn_share').onclick=function(event){
+/*        document.getElementById('btn_share').onclick=function(event){
             event.preventDefault();
             var form = document.getElementById('sayForm');
             var URL = "/talk?" + serialize(form);
             window.open(URL, "_self");
         }
+*/
     </script>
   </body>
 </html>

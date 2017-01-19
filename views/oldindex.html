@@ -1,0 +1,47 @@
+<form id="sayForm" class="form-horizontal">
+    <div class="row form-group">
+        <div class="col-xs-12">
+            <div id="inp_txt">
+                <input type="text" name="t" class="txt form-control" placeholder="Type something">
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+      <label for="v" class="col-md-2 control-label">Voice</label>
+      <div class="col-md-10 row">
+          <div class="col-xs-12 col-md-10">
+              <select name="v" class="form-control"></select>
+          </div>
+          <div class="col-xs-2">
+          </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <label for="rate" class="col-md-2 control-label">Rate</label>
+      <div class="col-md-10 row">
+          <div class="col-xs-10">
+              <input type="range" name="r" min="0.5" max="2" value="1" step="0.1" id="rate">
+          </div>
+          <div class="col-xs-2">
+              <div class="rate-value">1</div>
+          </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <label for="pitch" class="col-md-2 control-label">Pitch</label>
+      <div class="col-md-10 row">
+          <div class="col-xs-10">
+              <input type="range" name="p" min="0" max="2" value="1" step="0.1" id="pitch">
+          </div>
+          <div class="col-xs-2">
+              <div class="pitch-value">1</div>
+          </div>
+      </div>
+    </div>
+    <div class="row form-group">
+        <div class="grp_buttons">
+            <button class="btn btn-primary" type="submit">Play</button>
+            <button class="btn btn-default" id="btn_share">Share</button>
+        </div>
+    </div>
+</form>

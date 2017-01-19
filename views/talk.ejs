@@ -15,11 +15,13 @@
   </head>
 
   <body>
-    <h1 class="txt_say"><%= input %></h1>
+    <h1 class="txt_say"><%= text %></h1>
     <p class="lnk_back"><a href="/">Create a new one.</a></p>
-    <script src="../javascripts/speech.js"></script>
+    <script src="../javascripts/mespeak.full.js"></script>
+    <script src="../javascripts/controller.js"></script>
     <script>
-        sayThing("<%= input %>",<%= rate %>,<%= pitch %>,<%= voice %>);
+        initMeSpeak();
+        sayThing("<%= text %>", "<%= voice %>", "<%= variant %>", <%= pitch %>, <%= speed %>, <%= amplitude %>, <%= wordgap %>);
     </script>
   </body>
 </html>

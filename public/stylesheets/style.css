@@ -29,3 +29,8 @@ h1 {
     position: absolute;
     bottom: 1em;
 }
+
+/* Hide unfinished stuff :^)  */
+.unfinished {
+    display: none;
+}
