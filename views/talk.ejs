@@ -15,8 +15,13 @@
   </head>
 
   <body>
-    <h1 class="txt_say"><%= text %></h1>
-    <p class="lnk_back"><a href="/">Create a new one.</a></p>
+    <div class="say_container">
+        <div class="say_txt">
+          <p><%= text %></p>
+        </div>
+        <hr />
+        <p class="lnk_back"><a href="/">Create a new one.</a></p>
+    </div>
     <script src="../javascripts/mespeak.js"></script>
     <script src="../javascripts/sam.js"></script>
     <script src="../javascripts/controller.js"></script>

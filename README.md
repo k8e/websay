@@ -18,4 +18,4 @@ Say words on the web with [eSpeak](http://espeak.sourceforge.net/) (with a lot o
 
 # Running Instructions
 1. From the root directory, run: `npm install`
-2. Then run: `node websay.js`
+2. Then run: `node websay`
