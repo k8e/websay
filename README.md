@@ -1,5 +1,5 @@
 # WebSay
-Say words on the web with [eSpeak](http://espeak.sourceforge.net/) (with a lot of help from [meSpeak](http://www.masswerk.at/mespeak/))
+Say words on the web with [eSpeak](http://espeak.sourceforge.net/) (with a lot of help from [meSpeak](http://www.masswerk.at/mespeak/) and [SAM](https://github.com/s-macke/SAM))
 
 **Requirements:** `node.js`, `npm`
 

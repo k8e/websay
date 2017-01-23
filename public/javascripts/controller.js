@@ -23,16 +23,23 @@ function initSpeechForm() {
         var pitch = inputForm.elements["pitch"];
         var speed = inputForm.elements["speed"];
         var variant = inputForm.elements["variant"];
-        // Call meSpeak
-        meSpeak.speak(
-            text.value, {
-                amplitude: amplitude.value,
-                wordgap: wordgap.value,
-                pitch: pitch.value,
-                speed: speed.value,
-                variant: variant.options[variant.selectedIndex].value
-            }
-        );
+        var variant_val = variant.options[variant.selectedIndex].value;
+
+        if (variant_val == "sam") {
+            // Call SAM
+            sam(text.value);
+        } else {
+            // Call meSpeak
+            meSpeak.speak(
+                text.value, {
+                    amplitude: amplitude.value,
+                    wordgap: wordgap.value,
+                    pitch: pitch.value,
+                    speed: speed.value,
+                    variant: variant_val
+                }
+            );
+        }
     } // End submit
 
     // Add eventListeners for updating share link
@@ -41,6 +48,7 @@ function initSpeechForm() {
     }
     variantSelect.addEventListener('change', updateShareUrl, false);
     voiceSelect.addEventListener('change', updateShareUrl, false);
+    variantSelect.addEventListener('change', checkForOptionsAvailable, false);
     // finally, inject a link with current values into the page
     updateShareUrl();
 }
@@ -96,4 +104,88 @@ function voiceLoaded(success, message) {
     } else {
         alert("Error: (Failed to load voice) " + message);
     }
+}
+
+/* SAM */
+
+function PlayWebkit(context, audiobuffer)
+{
+	var source = context.createBufferSource();
+	var soundBuffer = context.createBuffer(1, audiobuffer.length, 22050);
+	var buffer = soundBuffer.getChannelData(0);
+	for(var i=0; i<audiobuffer.length; i++) buffer[i] = audiobuffer[i];
+	source.buffer = soundBuffer;
+	source.connect(context.destination);
+	source.start(0);	
+}
+
+function PlayMozilla(context, audiobuffer)
+{
+	var written = context.mozWriteAudio(audiobuffer);
+	var diff = audiobuffer.length - written;
+	if (diff <= 0) return;
+	var buffer = new Float32Array(diff);
+	for(var i = 0; i<diff; i++) buffer[i] = audiobuffer[i+written];
+	window.setTimeout(function(){PlayMozilla(context, buffer)}, 500);
+}
+
+
+function PlayBuffer(audiobuffer)
+{
+	if (typeof AudioContext !== "undefined") 
+	{
+       	PlayWebkit(new AudioContext(), audiobuffer);	
+	} else 
+	if (typeof webkitAudioContext !== "undefined") 
+	{
+		PlayWebkit(new webkitAudioContext(), audiobuffer);
+	} else if (typeof Audio !== "undefined")
+	{
+		var context = new Audio();
+		context.mozSetup(1, 22050);
+		PlayMozilla(context, audiobuffer);
+	}
+}
+
+function sam(text)
+{
+	var input = text;
+	while (input.length < 256) input += " ";
+	var ptr = allocate(intArrayFromString(input), 'i8', ALLOC_STACK);
+	_TextToPhonemes(ptr);
+	//alert(Pointer_stringify(ptr));
+	_SetInput(ptr);
+	_Code39771();
+
+	var bufferlength = Math.floor(_GetBufferLength()/50);
+	var bufferptr = _GetBuffer();
+
+	audiobuffer = new Float32Array(bufferlength);
+
+	for(var i=0; i<bufferlength; i++)
+		audiobuffer[i] = ((getValue(bufferptr+i, 'i8')&0xFF)-128)/256;
+	PlayBuffer(audiobuffer);
+}
+
+/* Temporary option disablers for certain voices */
+
+function checkForOptionsAvailable() {
+    var variant = inputForm.elements["variant"]
+    variant = variant.options[variant.selectedIndex].value;
+    if (variant != "sam") { // Sorry, SAM
+        enableOptions();
+    }
+    else {
+        disableOptions();
+    }
+}
+
+function enableOptions() {
+    inputForm.elements["pitch"].disabled = false;
+    inputForm.elements["speed"].disabled = false;
+}
+
+function disableOptions() {
+    inputForm.elements["pitch"].disabled = true;
+    inputForm.elements["speed"].disabled = true;
 }
